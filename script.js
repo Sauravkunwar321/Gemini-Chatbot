@@ -191,7 +191,7 @@ document.querySelectorAll(".suggestions-items").forEach(item => {
   })
 })
 
-//show/hide controls for mobile 
+//show/hide controls for mobile on input focus
 document.addEventListener("click", ({target}) => {
   const wrapper = document.querySelector(".prompt-wrapper");
   const shouldHide = target.classList.contains("prompt-input") || (wrapper.classList.contains ("hide-controls") && (target.id === "add-file-btn" || target.id === "stop-response-btn"));
