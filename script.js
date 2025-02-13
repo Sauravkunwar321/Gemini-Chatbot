@@ -110,8 +110,10 @@ const handleFormSubmit = (e) => {
 
   promptInput.value = "";
   userData.message =  userMessage;
-  document.body.classList.add("bot-responding");
+  document.body.classList.add("bot-responding", "chats-active");
   fileUploadWrapper.classList.remove("active", "img-attached", "file-attached");
+
+
 //generate user message html with optional file attachment
   const userMsgHTML = 
   ` <p class="message-text"></p> ${userData.file.data ? (userData.file.isImage ? `<img src="data:${userData.file.mime_type};base64,${userData.file.data}" class="img-attachment" />` : `<p class="file-attachment"><span class="material-symbols-rounded">description</span>${userData.file.fileName}</p>`) : ""}`; 
@@ -178,8 +180,23 @@ document.querySelector("#stop-response-btn").addEventListener("click", () => {
 document.querySelector("#delete-chat-btn").addEventListener("click", () => {
  chatHistory.length = 0;
  chatsContainer.innerHTML = "";
- document.body.classList.remove("bot-responding");
+ document.body.classList.remove("bot-responding", "chats-active");
  
+});
+
+document.querySelectorAll(".suggestions-items").forEach(item => {
+  item.addEventListener("click", ()=> {
+    promptInput.value = item.querySelector(".text").textContent;
+    promptForm.dispatchEvent(new Event("submit"));
+  })
+})
+
+//show/hide controls for mobile 
+document.addEventListener("click", ({target}) => {
+  const wrapper = document.querySelector(".prompt-wrapper");
+  const shouldHide = target.classList.contains("prompt-input") || (wrapper.classList.contains ("hide-controls") && (target.id === "add-file-btn" || target.id === "stop-response-btn"));
+  wrapper.classList.toggle("hide-controls", shouldHide);
+
 });
 
 //toggle theme
